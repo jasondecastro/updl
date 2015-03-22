@@ -4,7 +4,6 @@ import os
 import paramiko
 import random
 import sqlite3
-paramiko.util.log_to_file('paramiko.log')
 
 options = ["download", "upload"]
 script, action, filename = argv
@@ -28,11 +27,9 @@ def upload(filename):
             filepath = '/home/%s' % filename
             localpath = os.getcwd() + '/%s' % filename
             sftp.put(localpath, filepath)
-
             print "Your file has been successfully uploaded to our servers."
             print "The ID of the file for download is: %i" % fileID
             print "The file will be removed in 24 hours."
-
         except IOError, e:
             print e
             print "Oh no! An error has occured when uploading the file to our servers."
@@ -40,6 +37,7 @@ def upload(filename):
         print "File you are trying to upload does not exist."
 
 def download(filename):
+    try 
     filepath = '/home/%s' % filename
     localpath = os.getcwd() + '/%s' % filename
     sftp.get(filepath, localpath)
@@ -51,5 +49,3 @@ if action.lower() in options:
         download(filename)
 else:
     print "no"
-
-
